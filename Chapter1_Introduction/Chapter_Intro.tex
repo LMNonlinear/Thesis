@@ -1,0 +1,95 @@
+\section{Background}
+
+The dynamical system is a powerful and ubiquitous concept, capable of describing a vast range of natural and man-made processes. While mechanical, electrical and hydraulic systems are classic examples, more complex phenomena such as biological or environmental systems and abstract concepts like economics can also be described by dynamical systems. In all of these cases, to gain an understanding it is useful to construct a mathematical description of the system, which we will call the system \emph{model}. A model has many potential uses, e.g. it can be used to: provide insights into system behaviour, predict future behaviour, simulate the response to hypothetical scenarios, or design a controller for the system. Regardless of its intended use, a model can be obtained in one of three ways:
+\begin{enumerate}
+\item \textbf{Phenomenologically:} The mathematical description is built from the underlying physical laws governing each part of the system. This is sometimes referred to as white-box modeling.
+\item \textbf{Black-box modeling:} A purely data-driven approach, where input and output data are collected experimentally from the system, and a statistical method is applied to transform the system data into a model estimate.
+\item \textbf{Grey-box modeling:} A combination of the previous two approaches, where the structure of the model is obtained from a phenomenological analysis, but some of the model parameters are estimated in a data-driven fashion.
+\end{enumerate}
+
+Phenomenological modeling has limited utility, particularly when the system is prohibitively complex, or when the physical parameters are impossible to accurately quantify. Data-driven modeling, on the other hand, is a far more versatile approach. The application of data-driven modeling to \emph{dynamical} systems is commonly referred to as `system identification', a term we will also adopt here. 
+
+As a field of research, system identification began to emerge in the 1960s. Papers by Ho and Kalman \cite{Ho1965} and {\AA}str{\"o}m and Bohlin \cite{Astrom1965} in 1965 became foundational works in identification, paving the way for two main methods of approach: subspace identification and prediction error methods (PEMs) respectively. In the following decades structured frameworks were developed for identification of linear systems, with PEMs receiving a significant majority of the community's focus \cite{Diestler2002}. There are many comprehensive textbooks from this era, including \cite{Goodwin1977}, \cite{Ljung1987} and \cite{Soderstrom1989}, which provide statistical properties and practical considerations for common linear identification methods. While these texts focus chiefly on estimation using time domain data, identification in the frequency domain has also been studied extensively \cite{Pintelon2012}.
+
+While the identification of linear dynamical systems is now considered a mature field, the story for nonlinear systems is still, relatively, in its infancy. The first and most obvious issue when considering nonlinear systems is the vast array of possible models which can be used. In particular, when there is a lack of prior knowledge regarding the behaviour of the system, choosing an appropriate model structure is a significant challenge. Nevertheless, many nonlinear identification methods have been developed by imposing a known model class on the system of interest \cite{Billings1980}. In identification literature, three general approaches emerged in the latter half of the 20\textsuperscript{th} century: block-oriented modeling \cite{Billings1982}, Volterra series estimation \cite{Schetzen1965} and NARMAX\footnote{Nonlinear Auto-Regressive Moving-Average with eXogenous inputs} modeling \cite{Leontaritis1985}. The block-oriented approach combines linear dynamic and static nonlinear blocks in a fixed structure, thus requiring the strongest assumptions on model class. The latter two approaches apply to a much broader class of nonlinear systems, however at the time of their introduction the experimental and computational requirements were prohibitive for any non-trivial problem.     
+
+Prior to the emergence of system identification, the Volterra series had already gained some popularity as a tool for nonlinear system analysis \cite{Wiener1942}, \cite{Ikehara1951}. The concept is attractive from a theoretical standpoint, as it is a natural extension of the widely known, and used, Taylor series. In practice, however, the Volterra series was too complicated to be used in analyzing all but the most simple of systems, and it was not until the widespread availability of high performance computing in very recent years that it gained significant momentum in the literature for systems theory \cite{Cheng2017}. The same perspectives on Volterra series were then mirrored in the system identification community. Again, the series was an appealing option in theory due to its ability to model \emph{any} nonlinear system which is time invariant and has fading memory \cite{Boyd1985}, all but eliminating the need for prior knowledge of the system under study.  In reality, however, the multidimensional nature of the series implies a requirement for large numbers of parameters and long data records, and hence a high computational burden to match.
+
+There has been some progress in developing strategies to mitigate the computational and data length requirements associated with Volterra series parameter estimation. Some approaches require specifically designed input signals, such as Gaussian white noise \cite{Schetzen1974} or a pseudorandom multilevel sequence (PRMS) \cite{Nowak1994}. Another common technique is to expand the series using a set of orthogonal or wavelet basis functions \cite{Cheng2017}, thereby reducing the number of parameters to be estimated. Most recently, a Bayesian identification method from the linear system literature was extended to Volterra series in \cite{Birpoutsoukis2017}, which employs a computationally intensive optimization procedure to dramatically increase estimation accuracy for short data records. 
+
+Like any system model, Volterra series models have many uses, but control is undeniably the most pertinent application in an engineering context. Control refers to the practice of manipulating system inputs in order to obtain a desired output trajectory, where a mathematical model of the system is a useful tool in optimizing the control strategy. Traditionally, linear models were used to tune negative feedback control structures such as the Proportional-Integral-Derivative (PID) and state feedback architectures still in wide-scale use today (see e.g. \cite{Goodwin2001}). Another type of model-based control, known as Model Predictive Control (MPC), emerged almost in isolation from academic literature, through necessity in the process industries \cite{Mayne2014}. Due to the highly complex, multivariable, and often nonlinear nature of many engineering processes, and the large number of hard control constraints, traditional feedback structures were infeasible in many industrial settings. On the other hand, MPC was a conceptually simple and easily implementable alternative which found remarkable success in many engineering applications, and has since been adopted and studied extensively by the academic world \cite{Maciejowski2002}, \cite{Rawlings2009}.
+
+The use of Volterra series models in control design has, to this point, been extremely limited. This is of course unsurprising, since the identification of such models has historically been impractical in most real engineering settings, and the complicated nature of the models adds significant theoretical and computational complexity to online control calculations. In the late 1990s and early 2000s, some theoretical work was produced on feedback control and MPC using Volterra series, the majority of which can be found in \cite{Doyle2002}, however the results are limited to low order models.
+
+\section{Motivation}
+\label{sec:intro-motivation}
+
+Nonlinear system identification is a difficult task, but one where the Volterra series representation shows great theoretical promise. Historically, the series was too complex to be useful in practice for analysis or identification, however rapid developments in both computing technology and estimation algorithms have left Volterra series models poised on the edge of mainstream adoption.
+
+There are still several remaining challenges in enabling the widespread use of Volterra series for modeling and control of nonlinear systems. Three of these challenges will form the motivational basis for this thesis, and are listed below:
+\begin{enumerate}
+\item \emph{In the most general identification setting, where data records can be short, noisy and arbitrary in nature, Volterra series identification is still not feasible for higher order models (3rd order and higher). The Bayesian technique used in \cite{Birpoutsoukis2017} requires too many parameters in the representation, and its associated optimization problem scales poorly with series order, yielding prohibitively large computational and memory requirements.}
+\item \emph{While the method described in \cite{Birpoutsoukis2017} constitutes significant progress for time domain identification, equivalent techniques have not yet been developed for identification of Volterra series models directly in the frequency domain.}
+\item \emph{No framework exists for designing efficient model predictive control algorithms using generic high order Volterra models.}
+\end{enumerate}
+
+\section{Thesis outline and contributions}
+
+In this thesis, the three central challenges for Volterra series modeling and control highlighted in Section \ref{sec:intro-motivation} will be explored in detail. The thesis is organized in four parts, with one part used to establish some necessary preliminaries, and separate parts dedicated to each of the three challenges.
+
+Following the introduction, Part \ref{part:prelim} contains two preliminary chapters with the following structure:
+\begin{itemize}
+\item Chapter \ref{chap:2} introduces some fundamental concepts in system identification and control, with a focus on the estimation methods and control paradigms that will feature prominently in later chapters. In particular, Bayesian regularization techniques and the MPC framework are discussed in depth.
+\item Chapter \ref{chap:3} presents some necessary background on the Volterra series representation of dynamical systems, in both the time and frequency domain. General properties are discussed, and some overarching assumptions are established which will remain valid in the sequel. The extension of Bayesian regularization techniques to the Volterra series case, developed in \cite{Birpoutsoukis2017}, is also explained since this concept is crucial to many of the contributions in subsequent chapters.  
+\end{itemize}
+
+Part \ref{part:TD} contains all contributions pertaining to the first challenge, i.e. the feasibility of high order Volterra series identification in the time domain. The contributions are organized as follows:
+\begin{itemize}
+\item Chapter \ref{chap:4} introduces the statistical method known as expectation-maximization (EM) \cite{Dempster1977}, and derives the associated E- and M-steps for the case of Volterra series identification in a Bayesian setting. The application of EM is shown to reduce the large optimization problem required in \cite{Birpoutsoukis2017} into a set of smaller problems in an iterative scheme, thereby improving the computation time scaling of the identification method with Volterra series order. The results are demonstrated through a simulation example.
+\item Chapter \ref{chap:5} investigates the use of orthonormal basis function expansions to reduce the number of parameters needing estimation in a Volterra series model. In particular, the possibility of applying Bayesian regularization directly to the basis function expansions is considered. The results from Chapter \ref{chap:4} are extended to produce a modified EM algorithm capable of optimizing both the original identification hyperparameters as well as the parameters which generate basis functions for each nonlinear order. Numerical examples are used to illustrate how the combination of Bayesian regularization, basis functions and EM-based optimization can produce accurate Volterra series estimates up to the 5th order under extreme conditions, whilst the method from \cite{Birpoutsoukis2017} becomes infeasible after the 2\textsuperscript{nd} order.
+\item Chapter \ref{chap:6} complements the work contained in Chapters \ref{chap:4} and \ref{chap:5}, by assessing their contributions through two practical nonlinear example systems. Both of the systems presented are established nonlinear benchmarks in the identification community, and provide only short data records for estimation, making them a perfect test bed for addressing the challenge considered in this part of the thesis. 
+
+The first benchmark system consists of two cascaded water tanks \cite{Schoukens2016c}, combining nonlinear fluid dynamics with a hard saturation nonlinearity from tank overflow. The identification method developed in Chapter \ref{chap:5} is compared against the method from \cite{Birpoutsoukis2017} to highlight the reduction in parameters and computation time which can be achieved using the techniques proposed in this thesis.
+
+The second system consists of two coupled electric drives \cite{Wigren2017} connected via a flexible belt and spring to form a resonant configuration. An absolute value nonlinearity is present in the output sensor. The accuracy of a second order Volterra model estimated using the method of Chapter \ref{chap:5} is shown to be superior to many other models estimated using established identification routines.
+\end{itemize}
+
+Part \ref{part:FD} addresses the second motivating challenge of this thesis, that Bayesian regularization techniques have not yet been developed for direct frequency domain identification of Volterra series models. Three chapters are contained within this part, with the following contributions:
+\begin{itemize}
+\item In Chapter \ref{chap:7}, the identification problem is considered for the specific case of parallel Hammerstein systems; a subset of the block-oriented model structures. In this case, the standard frequency domain Volterra series can be reduced to a set of one-dimensional frequency functions known as Nonlinear Output Frequency Response Functions (NOFRFs). While the NOFRFs are used to describe each nonlinear order of the system, it is shown that the Hammerstein structure causes each frequency function to behave like a linear filter. This leads to the development, in this thesis, of a Bayesian estimation method extended from techniques in the linear frequency domain literature \cite{Lataire2016}.
+\item Chapter \ref{chap:8} considers the more general identification problem, and provides the theoretical framework for an equivalent frequency domain method to that of \cite{Birpoutsoukis2017}. The frequency domain terms of a Volterra series model, commonly known as Generalized Frequency Response Functions (GFRFs), are shown to be identified accurately from just one period of a steady-state data record, despite severe rank deficiency in the regression problem.
+\item Chapter \ref{chap:9} removes the steady-state assumption imposed in Chapter \ref{chap:8}, and examines the behaviour of nonlinear Volterra systems in the frequency domain when their input excitation is arbitrary. In this case, the system response contains both steady-state and transient contributions. The behaviour of the transient contribution has not been well studied in the literature for nonlinear systems, hence we derive analytic expressions in the chapter which describe the entire set of response contributions produced by a Volterra system in a highly structured manner. In doing so, important implications are revealed for frequency domain identification when steady-state measurements cannot be used.
+\end{itemize}
+
+Part \ref{part:MPC} shifts the focus of the thesis towards control in addressing the final challenge; efficient MPC using high order Volterra models. Theory and implementation are discussed in the following two chapters:
+\begin{itemize}
+\item In Chapter \ref{chap:10}, motivated by the success of the identification algorithm designed in Chapter \ref{chap:5}, a model predictive control algorithm is developed for arbitrary order Volterra models described by Laguerre basis functions. A nonlinear state space model framework is proposed, which is then used to construct a typical MPC objective. Solving this objective at any given sample time is shown to reduce to an optimization problem that is computationally simple and can be easily implemented online, with or without input constraints. Some notes on stability are also presented for the algorithm, highlighting the importance of the input penalty term in the objective function.
+\item Chapter \ref{chap:11} demonstrates the efficacy of the MPC method proposed in Chapter \ref{chap:10}, using two water level control problems. The first problem considers level control for the cascaded water tanks benchmark introduced in Chapter \ref{chap:6}, however the control performance is assessed here in simulation using a nonlinear state space model for the true system. To complement this, identification and control experiments are also performed on a real coupled water tanks apparatus. Both the simulation and experimental results show superior control performance from the proposed MPC when compared to controllers using simplified or linearized model structures.
+\end{itemize}
+
+Finally, a concluding summary of contributions is provided at the end of the thesis in Chapter~\ref{chap:12}. A number of promising pathways for future investigation are also discussed.
+
+\section{Publication list}
+
+All publications resulting from the research conducted in this thesis are listed below, along with the chapters which they relate to. The works are categorized according to their publication status.
+\null \\
+
+\textbf{Published conference proceedings:}
+\begin{itemize}
+\item \bibentry{Stoddard2018c}. \\ \null \hfill (Chapter \ref{chap:6})
+\item \bibentry{Stoddard2018d}. \\ \null \hfill (Chapter \ref{chap:6})
+\item \bibentry{Stoddard2018e}. \\ \null \hfill (Chapter \ref{chap:7})
+\item \bibentry{Stoddard2019c}. \\ \null \hfill (Chapters \ref{chap:10},\ref{chap:11})
+\end{itemize}
+
+\textbf{Published journal papers:}
+\begin{itemize}
+\item \bibentry{Stoddard2017b}. \\ \null \hfill (Chapter \ref{chap:4})
+\item \bibentry{Stoddard2019}. \\ \null \hfill (Chapter \ref{chap:8})
+\item \bibentry{Stoddard2019b}. \\ \null \hfill (Chapter \ref{chap:9})
+\end{itemize}
+
+\textbf{Journal papers under review:}
+\begin{itemize}
+\item \bibentry{Stoddard2018b}. \\ \null \hfill (Chapter \ref{chap:5})
+\end{itemize}

@@ -1,0 +1,68 @@
+General:
+-Different counters for different thm environments?
+x-Chapter abstracts
+ALL BUT CHAP11-Chapter/Part Links  
+-Consistent spelling
+- 'th --> \textsuperscript{th}
+-Check optimal figure/table placement
+-Margin violations
+x-LBF-Volterra vs. Volterra-Laguerre
+-Purge first names from blah.bib (use bibliography to find)
+x-List of symbols (see DARWISH thesis)
+x-List of abbreviations
+x-Caption style change? (use caption package)
+-Check all figure references (search for "??" and "?"), labels should go after caption
+
+Chapter 2:
+x-Arbitrary FIRs?
+x-FIR LS example
+x-All control preliminaries
+
+Chapter 3:
+x-Pictorial volterra series 
+x-Vectorise reg directions figure
+x-Provide remark with reg directions for 2->5th order
+x-Write NOFRF relationship to GFRF mathematically
+REMOVED-Freq domain plot example 
+x-Generating kernels from block structures?
+x- Add input signal plot to Figures 3.10,3.11 to pad them to full page size
+
+Chapter 4:
+x-Clean up numerical ex. section.
+x-pdf figure for ratios
+xIN CHAP 2-Define SNR
+x(2ND)-EM sequence path for each hyperparameter (2nd or 3rd order)
+-Robust to initialisation demonstration?
+
+Chapter 5:
+x- Change B_m to something else (\mathcal{B}_m??)
+- Look at first order kernel Bayesian proof in more detail: P_alpha = F*P*F^T??
+- Fix appendix/results formatting
+- Plot example estimates for ReLS, LBF and ReLBF
+x- Plot optimal LBF/KBF expansions for Sys2a/Sys2b filters as well (to justify Bm=10)
+
+Chapter 6:
+x- Tikz pic for Wiener-Hamm diagram?
+x- Change B_m to something else (\mathcal{B}_m??)
+x- pdf figure for CED kernels
+x- color pdf figure for tank kernels to match CED
+- add PRBS results as well?
+
+Chapter 7:
+x- Stacked Realizations Section + Added num. ex.
+- Plot input and output spectrum for example?
+- Redo GPR derivation for discrete-time covariance?
+- Redo GPR derivation for RCN (i.e. 0 \in k)?
+
+Chapter 8:
+- Add proofs in MAP estimate section?
+x- Change V notations to E
+x- Kronecker proof using p-1 instead of M
+x- Index from j -> i like in paper
+x- Tikz pics for system diagrams?
+x- Do rank deficient example for Hammerstein as well.
+
+Chapter 9:
+- Expand second order proof?
+- Add kernel covariance derivations?
+x- Tikz pic for system diagram?

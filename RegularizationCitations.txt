@@ -1,0 +1,15 @@
+The concept of regularization is quite old in the elds of statistics and
+machine learning. Early results on the topic of regularization include the
+articles of Tichonov on the inverse and ill-conditioned problems [136], [137],
+[138] (Tikhonov papers). The Tichonov regularization is also known under the term ridge regression
+in the eld of statistics [68], [66] - ridge regression, [65] while the Lasso regularization
+method [135] (Tibshirani) was also introduced two decades ago.
+The last 7 seven years the concept of regularization has been introduced
+in the eld of system identication in order to tackle the problem of high
+noise sensitivity in the linear nonparametric modeling case [109] (Pillonetto), [32], [84],
+[111], [110], [46], [77].
+
+Early results on regularization in statistics - tikhonov [137] [138]
+Ridge regression - [66]
+LASSO - [135]
+Gaussian process regression - Rasmussen [116]

@@ -1,0 +1,56 @@
+% Title: Block diagram of Third order noise shaper in Compact Disc Players
+% Author: RamÃ³n Jaramillo
+\documentclass[tikz,14pt,border=10pt]{standalone}
+%%%<
+\usepackage{verbatim}
+\usepackage{amsmath}
+%%%>
+\usepackage{textcomp}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,calc,positioning}
+\begin{document}
+% Definition of blocks:
+\tikzset{%
+  block/.style    = {draw, thick, rectangle, minimum height = 3em,
+    minimum width = 4em},
+  sum/.style      = {draw, circle, node distance = 1.5cm}, % Adder
+  input/.style    = {coordinate}, % Input
+  output/.style   = {coordinate} % Output
+}
+% Defining string as labels of certain blocks.
+\newcommand{\suma}{\Large$+$}
+\newcommand{\inte}{$\displaystyle \int$}
+\newcommand{\derv}{\huge$\frac{d}{dt}$}
+
+\begin{tikzpicture}[auto, thick, node distance=2.5cm, >=triangle 45]
+\draw
+	% Drawing the blocks of first filter :
+	node at (0.5,0) [name = input1]{}
+	node at (2,0) [sum] (insum) {}
+	node at (4,0) [block] (Lin) {$\Huge \mathbf{L}^{-1}$}
+	node at (4,-2) [block] (Nonlin) {$\LARGE \mathbf{N}$};
+	%node [block, right of=suma1] 
+         %node at (6.8,0)[block] (Q1) {\Large $Q_1$}
+         %node [block, below of=inte1] (ret1) {\Large$T_1$};
+    % Joining blocks. 
+    % Commands \draw with options like [->] must be written individually
+	\draw[->](input1) -- node {}(insum);
+	\draw[->](insum) -- node {}(Lin);
+	\draw[->](Lin)  --  (7,0);
+	\draw[->](6,0) -- (6,-2) -- node {}(Nonlin);
+	\draw[->](Nonlin) -- (2,-2) -| node [pos=0.97] {$-$}(insum); 
+	%\draw[->](Lin) -- node {$x_1(t)$}(Nonlin);
+	%\draw[->](Nonlin) -- node {$x_2(t)$}(Lin2);
+	%\draw[->](Lin2) -- node {$y(t)$}(output);
+%	\draw[->](sys) -- node {\Large $y_0$}(out1);
+%	\draw[->](input2) -- node {}(suma1);
+%	\draw[->](input3) -- node {}(suma2);
+%	\draw[->](suma1) -- node {\Large $u$}(out2);
+%	\draw[->](suma2) -- node {\Large $y$}(out3);
+%	\draw[->](vu) -- node {}(suma1);
+%	\draw[->](vy) -- node {}(suma2);
+ 	%\draw[->](suma1) -- node {} (inte1);
+	%\draw[->](inte1) -- node {} (Q1);
+	%\draw[->](ret1) -| node[near end]{} (suma1);
+\end{tikzpicture}
+\end{document}
