@@ -2,7 +2,7 @@
 
 The Volterra series provides a linear-in-the-parameters representation for a broad class of nonlinear systems, however we have seen in Chapter \ref{sec:RegVolterraTD} that the estimation of its associated Volterra kernels is ill-suited to a standard least squares framework. This is because the nonparametric nature of the model implies a requirement for large numbers of parameters, which in turn produces large variances in least squares estimates obtained from a finite and noisy data record. 
 
-In order to reduce the variance of kernel estimates, a regularized least squares approach was developed in \cite{Birpoutsoukis2017} and \cite{Birpoutsoukis2017c}. As discussed in Chapter \ref{chap:3}, the method uses Bayesian techniques to impose smoothness and decay along the (hyper)surfaces of each Volterra kernel, which is a nonlinear extension of Bayesian impulse response identification as introduced in \cite{Pillonetto2010}. The regularized estimation employs a set of tunable hyperparameters to describe the smoothness and decay rates of each kernel, where traditionally such hyperparameters have been optimized through a maximization of the associated marginal likelihood expression, which is typically non-convex \cite{Chen2013}. The dimension of the search space for this optimization increases quadratically with the order of the Volterra series model, since decay hyperparameters are required for each dimension of each kernel.
+In order to reduce the covariance of kernel estimates, a regularized least squares approach was developed in \cite{Birpoutsoukis2017} and \cite{Birpoutsoukis2017c}. As discussed in Chapter \ref{chap:3}, the method uses Bayesian techniques to impose smoothness and decay along the (hyper)surfaces of each Volterra kernel, which is a nonlinear extension of Bayesian impulse response identification as introduced in \cite{Pillonetto2010}. The regularized estimation employs a set of tunable hyperparameters to describe the smoothness and decay rates of each kernel, where traditionally such hyperparameters have been optimized through a maximization of the associated marginal likelihood expression, which is typically non-convex \cite{Chen2013}. The dimension of the search space for this optimization increases quadratically with the order of the Volterra series model, since decay hyperparameters are required for each dimension of each kernel.
 
 When compared to standard least squares and other more traditional estimation methods, the main disadvantages of the regularization approach in \cite{Birpoutsoukis2017} are:
 \begin{itemize} 
@@ -36,7 +36,7 @@ where $L_c(Y,Z ; \eta) = \log p_c(Y, Z; \eta)$ is the log likelihood function fo
 
 One possible solution is to produce a marginal likelihood function by integrating out the latent variables from our distribution, yielding a marginal likelihood maximization (MLM) problem:
 \begin{align}
-\hat{\eta} &= \text{arg } \underset{\eta}{\text{max }} \log \int_Z p_c(Y,Z; \eta) \text{d}Z \\
+\hat{\eta} &= \text{arg } \underset{\eta}{\text{max }} \log \int_Z p_c(Y,Z; \eta) \text{d}Z \label{eq:EM_marginallikelihoodoptA} \\
 &= \text{arg } \underset{\eta}{\text{max }} \log p(Y; \eta).
 \label{eq:EM_marginallikelihoodopt}
 \end{align}
@@ -44,14 +44,14 @@ Indeed, this is the typical pathway for regularized estimation problems employin
 
 There are many circumstances where a marginal likelihood approach becomes undesirable. For example, the marginalization process may be impossible or computationally intractable to perform, or it may be that the resultant optimization problem (\ref{eq:EM_marginallikelihoodopt}) is extremely difficult to solve. The latter problem is relevant to regularized Volterra series estimation, where the marginal likelihood approach implies searching through a high-dimensional non-convex function. In these situations, EM methods provide an alternate pathway which often resolves the issues associated with marginalization.
 
-In essence, the EM approach moves back to the complete data problem, (\ref{eq:EM_jointlikelihoodopt}), but replaces the unobserved data, $Z$, with its expected value given $Y$ and some guess of $\eta$. While there is no reason to believe this guess is accurate, the procedure can be repeated iteratively with nice convergence properties for $\eta$. 
+In essence, the EM approach moves back to the complete data problem, (\ref{eq:EM_jointlikelihoodopt}), but replaces the unobserved data, $Z$, with its expected value given $Y$ and some guess of $\eta$. While there is no reason to believe this guess is accurate, the procedure can be repeated iteratively with some nice convergence properties for $\eta$ which will be explained below.  
 
 Conceptually, the iterative procedure for the EM method consists of two steps. The first is the \emph{expectation} step, where the complete data likelihood function is approximated using parameters, $\hat{\eta}^{(k)}$, from the previous iteration, i.e.
 \begin{equation}
 \label{estep}
 Q(\eta,\hat{\eta}^{(k)}) = \textbf{E}\{  L_c(Y,Z;\eta) \},
 \end{equation}
-where $Q$ is the likelihood approximation, and the expectation is taken with respect to the posterior distribution $p(Z|Y; \hat{\eta}^{(k)})$.
+where $Q$ is the likelihood approximation, and the expectation is taken with respect to the posterior distribution $p(Z|Y; \hat{\eta}^{(k)})$. Note that in circumstances where (\ref{eq:EM_marginallikelihoodoptA}) is computationally intractable, (\ref{estep}) should be easier to compute since no integral is required.
 
 The second step consists of a \emph{maximization}, where the parameters are updated by maximizing the function (\ref{estep}) calculated in the first step. The new hyperparameters are thus given by,
 \begin{equation}
@@ -255,7 +255,7 @@ Now considering the EM method outlined in Algorithm \ref{alg:EMtuning}, any give
 
 To evaluate the computation time benefits of the proposed EM-based tuning over a traditional global MLM, both methods are applied to simulated Volterra systems of increasing order in a set of Monte Carlo studies. 
 
-\subsection{Simulation Settings}
+\subsection{Simulation settings}
 
 The test systems have a Wiener-type structure given by,
 \begin{equation}

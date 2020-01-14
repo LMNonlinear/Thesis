@@ -59,7 +59,7 @@ where $A_0$ gives the constant offset, $f_0$ is the fundamental frequency (in Hz
 
 A plethora of model classes exist for describing dynamical systems, and a selection here has consequences for the estimation methods which can be used as well as the suitability of the estimated model for its intended use. The first choice which should be made is whether to use a parametric or nonparametric representation. While parametric models have a fixed and finite number of parameters, nonparametric models are characterized by a parameter set which is infinite in theory and in practice can grow indefinitely with increasing data length. Another crucial question is whether to construct a model in the time or frequency domain, i.e. whether to express the input to output transformation in terms of time domain or frequency domain signals.
 
-For discrete linear systems, popular model classes include the parametric ARMAX, Box-Jenkins and state space structures, as well as the nonparametric impulse response model and its frequency domain equivalent, the frequency response function (FRF). For nonlinear systems, as discussed in Chapter 1, there are a number of representations available. NARMAX and block-oriented models can be fully or partially parametric, while the Volterra series and its related expansions are nonparametric. The Volterra series also has a frequency domain equivalent formulation comprised of GFRFs. This thesis assumes a preference for nonparametric modeling, and deals with Volterra series estimation in both time and frequency domain. Other nonlinear model classes, e.g. block-oriented structures, are sometimes used to construct a simulated `true system' on which identification is performed.
+For discrete linear systems, popular model classes include the parametric ARMAX, Box-Jenkins and state space structures, as well as the nonparametric impulse response model and its frequency domain equivalent, the frequency response function (FRF). For nonlinear systems, as discussed in Chapter \ref{chap:1}, there are a number of representations available. NARMAX and block-oriented models can be fully or partially parametric, while the Volterra series and its related expansions are nonparametric. The Volterra series also has a frequency domain equivalent formulation comprised of GFRFs. This thesis assumes a preference for nonparametric modeling, and deals with Volterra series estimation in both time and frequency domain. Other nonlinear model classes, e.g. block-oriented structures, are sometimes used to construct a simulated `true system' on which identification is performed.
 
 When a model class has been selected, it defines a set, $\mathcal{M}$, of all possible models for the system. The set is defined as
 \begin{equation}
@@ -74,7 +74,7 @@ Once experimental data has been collected and a model class chosen for a system,
 
 The fit criterion should be chosen based on the context in which the model will be used, but care must be taken since this choice will also have implications for computational complexity in the estimation phase. Typically, the criterion $V(\theta)$ is based on some measure of distance between the measured output and the model output predicted using $\mathcal{S}(\theta)$. Alternatively (and sometimes equivalently), $V(\theta)$ can be formulated as a statistical likelihood function which provides the likelihood of seeing the observed data given a model parameterized by $\theta$ and some assumed measurement noise distributions. 
 
-The estimation methods developed in this thesis use fit criterions which can be framed both in terms of a distance measure and a statistical function, with the relationship between the two criterions discussed in Section \ref{sec:ReLS_Chap2}.
+The estimation methods developed in this thesis use fit criteria which can be framed both in terms of a distance measure and a statistical function, with the relationship between the two criteria discussed in Section \ref{sec:ReLS_Chap2}.
 
 \subsection{Model estimation}
 
@@ -91,7 +91,7 @@ After obtaining a model estimate, it is important to test the model's prediction
 
 \section{The impulse response model}
 
-The impulse response model is a foundation stone of linear systems theory. For a discrete-time SISO system, it is defined as the output response to a unit impulse applied at sample time $t=0$, i.e. $u(t) = \delta(t)$ where $\delta(t)$ denotes the unit impulse function,
+The impulse response model is a foundation stone of linear systems theory. For a discrete-time SISO system, it is defined as the output response to a unit impulse applied at sample time $t=0$, i.e. $u(t) = \delta(t)$ where $\delta(t)$ denotes the discrete-time unit impulse function,
 \begin{equation}
 \delta(t) = \begin{cases} 1 & \text{for } t = 0 \\
 0 & \text{for } t \neq 0 \end{cases}
@@ -199,7 +199,7 @@ To analyze the properties of an estimator, the philosophical truth that real sys
 The true parameter vector, $\theta_0$, is a vector satisfying $\mathcal{S}(\theta_0) = \mathcal{S}_0$.
 \end{defn}
 
-Any estimate $\hat{\theta}$ produced by an estimator is a function of input and output measurements obtained from the system, which contain stochastic noise in general. The estimate itself should therefore be treated as a random variable, and it is the statistical properties of this variable which define the performance of the estimation method. There are three properties in particular which, when combined, provide an appreciation of the performance of the estimator. They are the bias, variance and mean square error (MSE).
+Any estimate $\hat{\theta}$ produced by an estimator is a function of input and output measurements obtained from the system, which contain stochastic noise in general. The estimate itself should therefore be treated as a random variable, and it is the statistical properties of this variable which define the performance of the estimation method. There are three properties in particular which, when combined, provide an appreciation of the performance of the estimator. They are the bias, covariance and mean square error (MSE).
 
 \begin{defn}[Bias]
 The bias of an estimator is the difference between the expected value of the estimate and the true parameters:
@@ -209,38 +209,38 @@ The bias of an estimator is the difference between the expected value of the est
 An unbiased estimator is one for which $\textbf{E}\{ \hat{\theta} \} = \theta_0$.
 \end{defn}
 
-\begin{defn}[Variance]
-The variance of an estimator is its variability around the expected value, described by:
+\begin{defn}[Covariance]
+The covariance of an estimator is its variability or dispersion around the expected value, described by:
 \begin{equation}
-\Var(\hat{\theta}) =  \textbf{E} \bigg\{ \big( \hat{\theta} - \textbf{E}\{ \hat{\theta} \} \big) \big( \hat{\theta} - \textbf{E}\{ \hat{\theta} \} \big)^T \bigg\}.
+\Cov(\hat{\theta}) =  \textbf{E} \bigg\{ \big( \hat{\theta} - \textbf{E}\{ \hat{\theta} \} \big) \big( \hat{\theta} - \textbf{E}\{ \hat{\theta} \} \big)^T \bigg\}.
 \end{equation}
 \end{defn}
 
 \begin{defn}[MSE]
-The MSE of an estimator combines the effects of bias and variance into a total error metric, given by:
+The MSE of an estimator combines the effects of bias and covariance into a total error metric, given by:
 \begin{align}
 \MSE(\hat{\theta}) &=  \textbf{E} \bigg\{ \big( \hat{\theta} - \theta_0 \big) \big( \hat{\theta} - \theta_0 \big)^T \bigg\} \\
-&= \Bias(\hat{\theta}) \Bias(\hat{\theta})^T + \Var(\hat{\theta}).
+&= \Bias(\hat{\theta}) \Bias(\hat{\theta})^T + \Cov(\hat{\theta}).
 \end{align}
 \end{defn}
 
-Observing these three properties, it is clear that an accurate estimator should have the lowest possible bias and variance in order to minimize its MSE. It would seem natural then, to consider only unbiased estimators such that $\text{Bias}(\hat{\theta}) = 0$. Indeed, the LS and MLE estimators, (\ref{eq:LS_opt}) and (\ref{eq:ML_opt}), will be unbiased under the following conditions:
+Observing these three properties, it is clear that an accurate estimator should have the lowest possible bias and covariance (in the matrix sense) in order to minimize its MSE. It would seem natural then, to consider only unbiased estimators such that $\text{Bias}(\hat{\theta}) = 0$. Indeed, the LS and MLE estimators, (\ref{eq:LS_opt}) and (\ref{eq:ML_opt}), will be unbiased under the following conditions:
 \begin{enumerate}
 \item $\mathcal{S}_0 \in \mathcal{M}$
 \item No input measurement noise
 \item The output error $E$ is any zero mean stochastic process
 \end{enumerate}
-Note that in the MLE case, the Gaussian i.i.d. noise assumption need not be met to ensure unbiasedness. Variance, on the other hand, will decrease further under the correct noise distribution. There is a fundamental restriction on how far the variance can decrease in unbiased estimators, and this is known as the Cramér-Rao lower bound \cite{Pintelon2012}. An unbiased estimator with variance obtaining the lower bound is called an \emph{efficient} estimator. 
+Note that in the MLE case, the Gaussian i.i.d. noise assumption need not be met to ensure unbiasedness. Covariance, on the other hand, will reduce further under the correct noise distribution. There is a fundamental restriction on how far the covariance can decrease in unbiased estimators, and this is known as the Cramér-Rao lower bound \cite{Pintelon2012}. An unbiased estimator with covariance obtaining the lower bound is called an \emph{efficient} estimator. 
 
-When considering models which require many parameters, such as the nonparametric impulse response, the Cramér-Rao lower bound can present a problem. For example, when the number of samples $N$ used in the estimation is low, or measurement noise is significant, even an efficient estimator will have very high variance and hence is likely to produce an inaccurate model. In these cases, it can be beneficial to introduce a small bias into the estimator in such a way that the variance decreases dramatically along with the MSE. Typically, this bias reflects some prior belief on how the parameter vector should behave, and can be introduced by adding an additional penalty to the fit criterion (known as `regularization'), or by adopting a Bayesian estimation approach. These two techniques are intrinsically related and will form the core of all identification methods presented in this thesis.
+When considering models which require many parameters, such as the nonparametric impulse response, the Cramér-Rao lower bound can present a problem. For example, when the number of samples $N$ used in the estimation is low, or measurement noise is significant, even an efficient estimator will have very high covariance and hence is likely to produce an inaccurate model. In these cases, it can be beneficial to introduce a small bias into the estimator in such a way that the covariance reduces dramatically along with the MSE. Typically, this bias reflects some prior belief on how the parameter vector should behave, and can be introduced by adding an additional penalty to the fit criterion (known as `regularization'), or by adopting a Bayesian estimation approach. These two techniques are intrinsically related and will form the core of all identification methods presented in this thesis.
 
-\section{Regularized least squares and the Bayesian perspective}
+\section{Regularized least squares and the Bayesian {perspective}}
 \label{sec:ReLS_Chap2}
 
 The least squares approach to model estimation is attractive due to its simplicity, with an analytic solution guaranteed for any model structure that is linear-in-the-parameters as long there is enough measurement data available. In practice however, and particularly for nonparametric structures such as the FIR model, estimation using least squares will lead to poor results under many circumstances. The issues relevant to FIR estimation are:
 \begin{itemize}
-\item The estimator will have high variance if the number of data points $N$ does not greatly exceed the number of parameters, $n$.
-\item The estimator will have high variance when output measurement noise is significant.
+\item The estimator will have large covariance if the number of data points $N$ does not greatly exceed the number of parameters, $n$.
+\item The estimator will have large covariance when output measurement noise is significant.
 \item The estimation problem will be ill-conditioned if the input excitation is not sufficiently exciting.
 \item The estimation problem does not have a unique solution when $N < 2n-1$.  
 \end{itemize} 
@@ -272,7 +272,7 @@ where $\Gamma$ is a Tikhonov matrix chosen to impose certain parameter behaviour
 \begin{equation}
 T(\theta) = \gamma \norm{\theta}_2^2,
 \end{equation}
-for some $\gamma \in \mathbb{R}^+$, then the regularization method is known within the statistics community by the term `ridge regression' \cite{Hoerl1970}. This scheme is particularly useful for parameter vectors which are expected to be sparse, since parameters are heavily penalized for being too far from zero.
+for some $\gamma \in \mathbb{R}^+$, then the regularization method is known within the statistics community by the term `ridge regression' \cite{Hoerl1970}. This scheme is particularly useful for parameter vectors which are expected to be sparse, since parameters are heavily penalized for being too far from zero. If the parameters in $\theta$ have different physical units, appropriate pre-scaling should be applied.   
 
 A more recent proposal for regularized estimation of sparse parameter vectors is the lasso (Least Absolute Shrinkage and Selection Operator) algorithm \cite{Tibshirani1996}, which replaces the 2-norm penalty with a 1-norm, giving
 \begin{equation}
@@ -288,7 +288,7 @@ with $H(\theta)$ denoting the Hankel matrix of $\theta$, and $\norm{\cdot}_*$ be
 
 \subsection{The quadratic penalty}
 
-One penalty term in particular has garnered a significant amount of attention in recent decades, first in the machine learning field for function estimation \cite{Rasmussen2006}, before being introduced to the system identification community as a method of low variance impulse response estimation \cite{Pillonetto2010}. The penalty is quadratic in nature, having the form,
+One penalty term in particular has garnered a significant amount of attention in recent decades, first in the machine learning field for function estimation \cite{Rasmussen2006}, before being introduced to the system identification community as a method of low covariance impulse response estimation \cite{Pillonetto2010}. The penalty is quadratic in nature, having the form,
 \begin{equation}
 T(\theta) = \gamma \theta^T P^{-1} \theta.
 \label{eq:QuadraticPenaltyT}

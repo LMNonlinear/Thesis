@@ -17,7 +17,7 @@ In order to simulate the cascaded tanks system, we employ a nonlinear continuous
 \dot{x}_2 &= k_2 \sqrt{x_1} - k_3 \sqrt{x_2}, \\
 y &= 0.5(x_2 - L),
 \end{align}
-where $x_1$ and $x_2$ are the water levels (in cm) of the upper and lower tanks respectively, $L$ is the length of the valve, $u$ is the pump input (in V), $y$ is the output water level (in V), and $k_1, k_2, k_3, k_4$ are the estimated parameters. The pump is unidirectional, such that the input voltage ($u$) cannot be negative.
+where $x_1$ and $x_2$ are the water levels (in cm) of the upper and lower tanks respectively, $L$ is the length of the valve (see Figure \ref{fig:System_Tanks}), $u$ is the pump input (in V), $y$ is the output water level (in V), and $k_1, k_2, k_3, k_4$ are the estimated parameters. The pump is unidirectional, such that the input voltage ($u$) cannot be negative.
 
 The simulation model is first used to perform an identification experiment, where $8000$ samples of input/output data are collected. The input is designed as a filtered noise sequence which ranges between 0 and 8V, such that the output moves through the entire range of intended operating levels. Two second order Volterra-Laguerre models are identified for the tanks system, using the same method employed in Chapter \ref{chap:6}, i.e. the regularized basis function approach (ReLBF) proposed in Chapter \ref{RegBFs_Chap5}. The first model takes full advantage of the flexible state space structure, (\ref{eqn:SS_dynamic_VL}) and (\ref{eqn:SS_output_VL}), developed in the previous chapter, with separate Laguerre bases at each order and a constant $\alpha_0$ kernel. The second model uses the simplified structure imposed in \cite{Parker1998}, where each nonlinear order uses the same Laguerre basis and the constant kernel is neglected. 
 
@@ -130,7 +130,7 @@ The errors for each identified model are reported in Table \ref{tab:CoupledTanks
 
 \begin{table}[h]
 \centering
-\caption{Validation metrics for each Volterra-Laguerre model of the coupled tanks}\label{tab:NRMSE_CED}
+\caption{Validation metrics for each Volterra-Laguerre model of the coupled tanks}
 \begin{tabular}{|c||c|c|c|}
 \hline
 \textbf{Model} & Linear & 2\textsuperscript{nd} order & 3\textsuperscript{rd} order \\

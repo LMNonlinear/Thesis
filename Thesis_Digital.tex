@@ -1,0 +1,553 @@
+\documentclass[11pt,twoside]{report}
+
+\author{Jeremy}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{url}
+\usepackage[svgnames]{xcolor}
+\usepackage{pdfcolmk}
+\usepackage{graphicx}
+\usepackage{boxedminipage}
+\usepackage{tikz}
+\usepackage{pifont}
+\usepackage{lipsum}
+\usepackage{longtable}
+\usepackage{amsmath} 
+\usepackage{amssymb}  
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage[a4paper,left=4cm,top=3cm,right=3cm,bottom=3cm]{geometry}		%margins for uon thesis should be at least [4cm,3cm,2cm,2cm]
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{bibentry}
+\usepackage{afterpage}
+\usepackage{setspace} %used for line spacing
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{bm}
+\usepackage{multirow}
+\usepackage{appendix}
+\usepackage{rotating}
+\usepackage[skins]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage[Algorithm,ruled]{algorithm}
+
+\pagestyle{fancy}
+
+\usepackage{hyperref, bookmark} 
+\hypersetup{
+allbordercolors = {white},
+colorlinks = true,
+allcolors = {red},
+citecolor = {blue},
+linktocpage = true,
+}
+
+\usepackage{caption}
+\captionsetup[figure]{labelfont = bf}
+\captionsetup[table]{labelfont = bf}
+
+\onehalfspacing		%set spacing to 1.5
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Bias}{Bias}
+\DeclareMathOperator{\MSE}{MSE}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\vect}{vec}
+
+%----Header/footer style----------------------------------------
+\fancyhead{}
+\fancyfoot{}
+\fancyfoot[LE,RO]{\thepage}
+\fancyhead[RO]{\textsl{\rightmark}}
+\fancyhead[LE]{\textsl{\leftmark}}
+%----Header/footer style----------------------------------------
+
+\providecommand{\HUGE}{\Huge}% if not using memoir
+\newlength{\drop}% for my convenience
+%% select a (FontSite) font by its font family ID
+\newcommand*{\FSfont}[1]{\fontencoding{T1}\fontfamily{#1}\selectfont}
+%% if you don’t have the FontSite fonts either \renewcommand*{\FSfont}[1]{}
+%% or use your own choice of family.
+%% select a (TeX Font) font by its font family ID
+\newcommand*{\TXfont}[1]{\fontencoding{T1}\fontfamily{#1}\selectfont}
+%% Publisher’s logo
+\newcommand*{\ulogo}{\includegraphics[width=0.5\textwidth]{UONlogo}}
+\newcommand*{\ulogob}{\includegraphics[width=0.7\textwidth]{UONlogo2}}
+\newcommand*{\placeholder}{\fbox{$\mathcal{PLACEHOLDER}$}}
+
+%----Chapter title style----------------------------------------
+%\titleformat{\chapter}[display]
+%{\bfseries\LARGE}
+%{\filleft\MakeUppercase{\chaptertitlename} \Huge\thechapter}
+%{1ex}
+%{
+%\vspace{2ex}%
+%\filleft}
+%[\vspace{2ex}%
+%\titlerule]
+%----Chapter title style----------------------------------------
+
+%----Alternate Chapter title style 2----------------------------------------
+\tcbuselibrary{fitting}
+\titleformat{\chapter}[display]
+{\bfseries\LARGE}
+{\filleft%
+\MakeUppercase{\normalfont \textsc{\chaptertitlename}} 
+\begin{tcolorbox}[enhanced,width=1.25in,height=1in,
+    fontupper=\HUGE\bfseries,drop shadow southwest,colback=white,lowerbox=ignored,halign=flush center,valign=center,arc = 0.2in]
+{\tcbfontsize{5} \thechapter}
+\end{tcolorbox}}
+{1ex}
+{
+\vspace{2ex}%
+\filright}
+[\vspace{1.4ex}%
+\titlerule]
+%----Chapter title style----------------------------------------
+
+%----Alternate Part title style 2----------------------------------------
+\titleformat{\part}[display]
+{\bfseries\Huge}
+{\centering%
+{\normalfont \LARGE \textsc{PART}} 
+\begin{tcolorbox}[enhanced,width=2in,height=1.3in,
+    fontupper=\HUGE\bfseries,colback=white,colframe = white, lowerbox=ignored,halign=flush center,valign=center,sharp corners,skin=enhancedmiddle jigsaw,leftrule=2.5mm,rightrule=2.5mm,
+boxsep=0mm,top=0mm,bottom=0mm]
+{\tcbfontsize{7} \thepart}
+\end{tcolorbox}}
+{1ex}
+{\centering%
+\vspace{2ex}}
+[\vspace{2ex}]
+%----Part title style----------------------------------------
+
+%----Titlepage style----------------------------------------
+\newcommand*{\titleUL}{\begingroup
+\drop=0.07\textheight
+%\vspace*{\drop}
+\begin{center}
+% University logo
+{\ulogob}\\[\drop]
+\rule{\textwidth}{1pt}\par
+\vspace{0.5\baselineskip}
+{\huge\bfseries Innovative Data-Driven Modeling and Control for Nonlinear Systems using Volterra Series}\\[0.5\baselineskip]
+\rule{\textwidth}{1pt}\par
+\vfill
+{\Large\textsc{Jeremy G. Stoddard}} \\ BEng (Hons) (Elec.) 
+\vfill
+{A thesis submitted in fulfilment of the requirements for the degree of \\ {\large\bfseries Doctor of Philosophy} \\ {\small\bfseries in Electrical Engineering} }
+\vfill
+{\large November 2019}
+\vfill
+{\small \emph{This research was supported by an Australian Government Research Training Program (RTP) Scholarship}}
+\end{center}
+\endgroup}
+%----Titlepage style----------------------------------------
+
+%----Theorem styles----------------------------------------
+\newtheorem{thm}{Theorem}[chapter]
+\newtheorem*{proof*}{Proof}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{assum}[thm]{Assumption}
+\newtheorem{proposition}[thm]{Proposition}
+\newtheorem{property}[thm]{Property}
+\newtheorem{notation}[thm]{Notation}
+\newtheorem{corollary}[thm]{Corollary}
+%----Theorem styles----------------------------------------
+
+\nobibliography*
+
+%\includeonly{Chapter5_RegBFs/Chapter_RegBFs}
+
+\pagenumbering{gobble}		%no page numbers
+%---------------------------------------------------BEGIN DOCUMENT-----------------------------------------------------------------
+\begin{document}
+\thispagestyle{plain}
+\titleUL
+\thispagestyle{plain}
+\cleardoublepage
+\thispagestyle{plain}
+\section*{Declaration}
+\thispagestyle{plain}
+\begin{minipage}{0.68\textwidth}
+I hereby certify that the work embodied in this thesis is my own work, conducted under normal supervision. The thesis contains no material which has been accepted, or is being examined, for the award of any other degree or diploma in any university or other tertiary institution and, to the best of my knowledge and belief, contains no material previously published or written by another person, except where due reference has been made. I give consent to the final version of my thesis being made available worldwide when deposited in the University’s Digital Repository, subject to the provisions of the Copyright Act 1968.
+\newline
+\newline
+\newline
+\newline
+\newline
+\null \hrulefill \newline 
+{\Large\textbf{Jeremy G. Stoddard}} \newline
+BEng (Hons) (Elec.) \newline
+\newline
+\textbf{November, 2019}
+\end{minipage}
+
+\cleardoublepage
+\thispagestyle{plain}
+
+\chapter*{Acknowledgements}
+\addcontentsline{toc}{chapter}{Acknowledgements}
+\thispagestyle{plain}
+\pagenumbering{roman}		%start non-numeric numbering
+
+%\lipsum[1] \lipsum[2] \lipsum[3] \lipsum[4] \lipsum[5]
+
+Behind every successful PhD student, there stands a group of people who made it possible through their support, encouragement and advice. I would like to express my thanks to the people who have stood behind me on my journey, and who have all helped shape this thesis in one way or another.
+
+First and foremost, I have to thank my supervisor, A/Prof. James Welsh, for providing me with the opportunity to experience life as a researcher. You took me `under your wing' when I was just a young undergraduate student, and thanks to your kindness, generosity and many years of patient support, I have made it to this point. You allowed me to travel the world, meet amazing people and gave me free rein to pursue whatever I found interesting. I see you not just as a supervisor, but a role model and a friend.
+
+Prof. Håkan Hjalmarsson also deserves gratitude as my first collaborator. In areas where I could have spent weeks or years without progress, your wealth of knowledge and experience allowed us to connect concepts and achieve results in a matter of days.
+
+To Prof. Johan Schoukens, Dr. John Lataire and Prof. Rik Pintelon, I would like to thank you for giving me the opportunity to visit your department in Brussels and learn from the best. I am also grateful for all the discussions and collaborations which emerged as a consequence, including a second visit which was generously made possible by Johan.
+
+I cannot mention Brussels without acknowledging Dr. Georgios Birpoutsoukis, who had perhaps the biggest effect on my PhD journey. Your enthusiasm for your work inspired my research, your willingness to share ideas led to many exciting collaborations, and I had an unforgettable experience in Belgium thanks to your open nature and friendship. Thank you (and sorry) for all the early morning Skype meetings I have made you wake up for over the years, but your constant support and advice is what pushed me to always aim for the highest quality in my work. I am sure we will remain friends for a long time to come. 
+
+To all of my engineering office mates who have come and gone, I thank you for the lively discussions and welcome distractions. A special mention must go to Siqi Pan, who sat next to me for the entirety of my PhD, and showed me what proper work ethic and tenacity looks like. I am sure your research will be extremely impressive and valuable to the identification community.
+
+The support of my family and friends has been my backbone through this process. To Mum and Dad especially, who have always encouraged me and fostered my love of learning, I can't thank you enough and I hope this achievement helps convince you of the amazing parents that you are to all of your children. 
+
+Finally, a huge thank you to my beautiful fiancée, Mon. You helped me believe that I was capable of doing this, lifted me up whenever things weren't going my way, and made every day better. I can't wait to see where our next adventure takes us. 
+
+\thispagestyle{plain}
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{Contents}
+\tableofcontents
+
+\cleardoublepage
+\thispagestyle{plain}
+
+\chapter*{List of Abbreviations}
+\addcontentsline{toc}{chapter}{List of Abbreviations}
+\thispagestyle{plain}
+%\begin{table}[h]
+\begin{longtable}{p{0.2\textwidth} p{0.8\textwidth}}
+\\
+DC & Diagonal/Correlated \\
+DFT & Discrete Fourier Transform \\
+EM & Expectation-Maximization \\
+FIR & Finite Impulse Response \\
+FRF & Frequency Response Function \\
+GFRF & Generalized Frequency Response Function \\
+GOBFs & Generalized Orthonormal Basis Functions \\
+GPR & Gaussian Process Regression \\
+i.i.d. & Independent and Identically Distributed \\
+IDFT & Inverse Discrete Fourier Transform \\
+IIR & Infinite Impulse Response \\
+KBFs & Kautz Basis Functions \\
+LBFs & Laguerre Basis Functions \\
+LPM & Local Polynomial Method \\
+LRM & Local Rational Method \\
+LS & Least Squares \\
+LTI & Linear Time-Invariant \\
+m-DTFT & m-dimensional Discrete-Time Fourier Transform \\
+MAP & Maximum A Posteriori \\
+MC & Monte Carlo \\
+MIMO & Multiple-input-multiple-output \\
+MLE & Maximum Likelihood Estimation \\
+MLM & Marginal Likelihood Maximization \\
+MPC & Model Predictive Control \\
+MSE & Mean Square Error \\
+NARMAX & Nonlinear Auto-Regressive Moving-Average with eXogenous inputs \\
+NMSE & Normalized Mean Square Error \\
+NOFRF & Nonlinear Output Frequency Response Function \\
+NRMSE & Normalized Root Mean Square Error \\
+PEM & Prediction Error Method \\
+PID & Proportional-Integral-Derivative \\
+PRBS & Pseudorandom Binary Sequence \\
+PRMLS & Pseudo-Random Multilevel Sequence \\
+RCG & Real/Complex Gaussian \\
+ReLS & Regularized Least Squares \\
+RMS & Root Mean Square \\
+SISO & Single-input-single-output \\
+SNR & Signal-to-Noise Ratio \\
+TC & Tuned/Correlated \\
+TIFM & Time-Invariant and Fading Memory 
+\end{longtable}
+%\end{table}
+\thispagestyle{plain}
+
+\chapter*{List of Symbols}
+\addcontentsline{toc}{chapter}{List of Symbols}
+\thispagestyle{plain}
+%\begin{table}[h]
+\begin{longtable}{p{0.2\textwidth} p{0.8\textwidth}}
+%\hline
+\multicolumn{2}{l}{\textbf{System Identification}} \\ %\hline 
+\\
+$\mathcal{S}_0$ & True system \\
+$\mathcal{M}$ & Set of all possible models in the model class \\
+$\theta$ & Model parameters \\ 
+$\theta_0$ & True parameter vector \\
+$V(\theta)$ & Fit criterion for identification \\
+$\hat{\theta}$ & Estimate of the model parameters \\
+$h$ & Impulse response of a linear system \\
+$Y$ & Vector of output measurements \\
+$\Phi$ & Regressor matrix \\
+$E$ & Vector of errors \\
+$\sigma^2$ & Variance\\
+$P$ & Quadratic regularization penalty or Bayesian prior covariance \\
+$\eta$ & Hyperparameters for Bayesian regularization \\
+$\hat{\eta}^{(k)}$ & EM hyperparameter sequence \\
+$\Sigma_Y$ & Covariance of output vector $Y$ \\
+$m$ & Nonlinear Volterra series order \\
+$M$ & Maximum nonlinear Volterra series order \\
+$h_0$ & Constant offset/$0$\textsuperscript{th} order Volterra kernel \\
+$h_m$ & Volterra kernel of order $m$ \\
+$n_m$ & Memory length of kernel $h_m$ \\
+$d_m$ & Number of unique coefficients in a kernel $h_m$ \\
+$h_m^\mathcal{V}$ & Vector containing all unique coefficients from $h_m$ \\
+$P_m$ & Prior covariance for kernel parameters $h_m^\mathcal{V}$ \\
+$H_m$ & GFRF of order $m$ \\
+$H_m^\mathcal{V}$ & RCG vector containing all unique coefficients from $H_m$ \\
+$G_{\cdot}$ & NOFRF or transfer function \\
+$\alpha_0$ & Constant offset/$0$\textsuperscript{th} order basis function kernel \\
+$\alpha_m$ & Basis function expanded kernel of order $m$ \\
+$\mathcal{B}_m$ & Number of basis functions in the $\alpha_m$ expansion 
+\end{longtable}
+%\end{table}
+\thispagestyle{plain}
+
+\begin{longtable}{p{0.2\textwidth} p{0.8\textwidth}}
+%\hline
+\textbf{Control} & \null \\ %\hline 
+\\
+$u^*$ & Optimal MPC input sequence \\
+$\mu$ & MPC move horizon \\
+$d_o$ & Output disturbance term \\
+$\Gamma_u$ & Scaling parameter for MPC input penalty 
+\end{longtable}
+%\end{table}
+\thispagestyle{plain}
+
+\begin{longtable}{p{0.2\textwidth} p{0.8\textwidth}}
+%\hline
+\textbf{Signals} & \null \\ %\hline 
+\\
+$y^0$ & True system output \\
+$y_m$ & Output contribution from $m$\textsuperscript{th} nonlinear order \\
+$u(t)$ & Measured input at sample/time $t$ \\
+$y(t)$ & Measured output at sample/time $t$ \\
+$r(t)$ & Reference signal \\
+$U(k)$ & Input spectrum at DFT bin $k$ \\
+$U_m(k)$ & DFT spectra of $u^m(t)$ \\
+$Y^0(k)$ & True output spectrum at DFT bin $k$ \\
+$Y(k)$ & Measured output spectrum at DFT bin $k$ \\
+$Y_m$ & Output spectrum contribution from $m$\textsuperscript{th} nonlinear order \\
+$T_m$ & Output transient at the $m$\textsuperscript{th} nonlinear order \\
+$\mathbf{k_u}$ & Set of DFT frequencies at which the input spectrum is excited \\
+$\mathbf{k_y}$ & Set of DFT frequencies at which the true output spectrum is nonzero \\
+$\mathbf{k_e}$ & Set of DFT frequencies for frequency domain estimation \\
+$\omega_k$ & $k$\textsuperscript{th} discrete frequency \\
+$N$ & Number of samples in input/output measurements 
+\end{longtable}
+%\end{table}
+\thispagestyle{plain}
+
+\begin{longtable}{p{0.2\textwidth} p{0.8\textwidth}}
+%\hline
+\textbf{Statistics} & \null \\ %\hline 
+\\
+$\mathcal{L}(i;j)$ & Likelihood function for $i$ given parameters $j$ \\
+$p(i|j)$ & Conditional distribution of $i$ given the observation $j$ \\
+$\mathcal{N}(\mu,\Sigma)$ & Normal (Gaussian) distribution with mean $\mu$ and covariance $\Sigma$ \\
+$\mathcal{RCN}(\mu,\Sigma)$ & Real/complex normal distribution with augmented mean $\mu$ and augmented covariance $\Sigma$ \\
+$\mathbf{E} \{ x \}$ & Expected value of random variable $x$ 
+\end{longtable}
+%\end{table}
+\thispagestyle{plain}
+
+\vspace{2cm}
+\begin{longtable}{p{0.2\textwidth} p{0.8\textwidth}}
+%\hline
+\textbf{Fields} & \null \\ %\hline 
+\\
+$\mathbb{N}$ & Set of natural numbers \\
+$\mathbb{Z}$ & Set of integer numbers \\
+$\mathbb{Z}^+$ & Set of positive integers \\
+$\mathbb{R}$ & Set of real numbers \\
+$\mathbb{R}^+$ & Set of positive real numbers \\
+$\mathbb{C}$ & Set of complex numbers \\
+$\mathbb{F}$ & Arbitrary field \\
+$\mathbb{F}^{n_1 \times \hdots \times n_m}$ & Arbitrary field with dimension $n_1 \times \hdots \times n_m$
+\end{longtable}
+%\end{table}
+\thispagestyle{plain}
+
+\begin{longtable}{p{0.2\textwidth} p{0.8\textwidth}}
+%\hline
+\textbf{Operators} & \null \\ %\hline 
+\\
+$q, q^{-1}$ & Forward and backwards shift \\
+$z$ & $z$-transform variable \\
+$\Var$ & Variance \\
+$\Cov$ & Covariance \\
+$\vect$ & Vectorization \\
+$\log$ & Natural logarithm \\
+$\det$ & Determinant \\
+$\min$ & Minimum \\
+$\max$ & Maximum \\
+$\diag$ & Diagonal matrix from a vector \\ 
+$\Tr$ & Trace \\
+$\norm{\cdot}_i$ & Euclidean $i$-norm \\ 
+$\bar{\cdot}$ & Complex conjugate \\
+$(\cdot)^T$ & Transpose \\
+$(\cdot)^H$ & Hermitian transpose \\
+$*$ & Linear convolution \\
+$\langle \cdot,\cdot \rangle$ & Inner product \\
+$\circ$ & Hadamard (element-wise) product \\
+$\otimes$ & Kronecker product \\
+$[\cdot]^{\otimes m}$ & Kronecker exponentiation by $m \in \mathbb{N}$ \\
+$\mathfrak{R}$ & Real part \\
+$\mathfrak{I}$ & Imaginary part \\
+$\widetilde{X}$ & Augmented vector of RCG vector $X$ \\
+$\frac{\partial}{\partial x}$ & Partial derivative with respect to $x$ 
+\end{longtable}
+%\end{table}
+\thispagestyle{plain}
+
+\vspace{2cm}
+\begin{longtable}{p{0.2\textwidth} p{0.8\textwidth}}
+%\hline
+\multicolumn{2}{l}{\textbf{Functions and Constants}} \\ %\hline 
+\\
+$\delta$ & Unit impulse function \\
+$I$ & Identity matrix of appropriate dimension \\
+$j$ & Imaginary unit ($\sqrt{-1}$) \\
+$\binom{a}{b}$ & binomial coefficient $a$ choose $b$ \\
+$\mathcal{K}_m$ & Kronecker permutation-sum function for $m$ matrix arguments
+\end{longtable}
+%\end{table}
+\thispagestyle{plain}
+
+%--------------------------------------------------------------------------------------------------------------------------------------------------
+\cleardoublepage
+\chapter{Introduction}
+\label{chap:1}
+\pagenumbering{arabic}		%start numeric numbering
+\newpage
+\include{Chapter1_Introduction/Chapter_Intro}
+
+%--------------------------------------------------------------------------------------------------------------------------------------------------
+\cleardoublepage
+\part{Preliminaries}
+\label{part:prelim}
+%--------------------------------------------------------------------------------------------------------------------------------------------------
+
+\cleardoublepage
+\chapter{System Identification and Control}
+\label{chap:2}
+\emph{This chapter contains a brief introduction to concepts within the fields of system identification and control. Dynamical systems and the process of identification are discussed broadly, with particular focus on the impulse response model and its associated regularized least squares estimator. Some background on control theory is provided, along with a description of the model predictive control (MPC) framework adopted in this thesis.}
+\newpage
+\include{Chapter2_SysIDandControl/Chapter_SysIDandControl}
+
+\cleardoublepage
+\chapter{The Volterra Series}
+\label{chap:3}
+\emph{This chapter introduces the Volterra series model for nonlinear dynamical systems. Time and frequency domain representations are defined for the discrete-time case, where some assumptions and properties are also stated. Previous contributions to the Volterra series identification problem are summarized, with a comprehensive explanation of the regularized estimation method as extended from linear identification literature.}
+\newpage
+\include{Chapter3_VolterraSeries/Chapter_VolterraSeries}
+
+%--------------------------------------------------------------------------------------------------------------------------------------------------
+\cleardoublepage
+\part{Time Domain Identification}
+\label{part:TD}
+%--------------------------------------------------------------------------------------------------------------------------------------------------
+
+\cleardoublepage
+\chapter{EM-Based Hyperparameter Optimization for Regularized Volterra Series Estimation}
+\label{chap:4}
+\emph{The Bayesian regularization method for estimating Volterra series models suffers from poor computation time scaling with respect to the series order. The scaling problem arises in the marginal likelihood maximization used for hyperparameter tuning, where the dimension of the search space grows quadratically with series order. A further problem also arises in the fact that the cost function can have a large number of local minima. In this chapter, the hyperparameter optimization is reformulated using an expectation-maximization (EM) approach, which reduces the single large optimization problem to a set of smaller problems in an iterative scheme. The maximum search space dimension of these smaller problems increases linearly with the order of the Volterra series, thereby improving the computation time scaling of regularized estimation. Both the traditional marginal likelihood and proposed EM approach are applied to numerical examples to confirm the superior computation time scaling of the EM method.}
+\newpage
+\include{Chapter4_EM/Chapter_EM}
+
+\cleardoublepage
+\chapter{Volterra Kernel Identification using Regularized Basis Function Expansions}
+\label{chap:5}
+\emph{This chapter addresses the feasibility of high order Volterra series estimation from noisy data records, by developing an extension to the Bayesian regularization method which can be applied directly to basis function expansions of the Volterra model. The number of parameters requiring estimation in a basis function expanded model is typically much smaller than for the equivalent time domain series, provided that the basis functions are chosen appropriately for the system. In this chapter, theoretical justification is provided for the proposed approach. The EM algorithm designed in Chapter \ref{chap:4} is then extended to allow the optimization of both the regularization hyperparameters and the basis functions at each nonlinear order of the series. Monte Carlo simulation studies highlight the benefits of a regularized basis function approach over the original time domain method.}
+\newpage
+\include{Chapter5_RegBFs/Chapter_RegBFs}
+
+\cleardoublepage
+\chapter{Practical Case Studies in Time Domain Identification}
+\label{chap:6}
+\emph{In this chapter, the theoretical contributions of Chapters \ref{chap:4} and \ref{chap:5} are evaluated on experimental data obtained from nonlinear benchmark systems in the identification community. Firstly, Volterra series model estimates are obtained for a cascaded water tanks system using the regularized basis function approach, with accuracy and computation time compared against the equivalent time domain method. Following this, the same basis function method is applied to a coupled electric drives system to estimate a second order Volterra model. The validation performance of this model is compared against other popular linear and nonlinear model classes estimated using the MATLAB System Identification Toolbox.}
+\newpage
+\include{Chapter6_CaseStudies/Chapter_CaseStudies}
+
+%--------------------------------------------------------------------------------------------------------------------------------------------------
+\cleardoublepage
+\part{Frequency Domain Identification}
+\label{part:FD}
+%--------------------------------------------------------------------------------------------------------------------------------------------------
+
+\cleardoublepage
+\chapter{Gaussian Process Regression in the Frequency Domain - the Parallel Hammerstein Case}
+\label{chap:7}
+\emph{Frequency domain estimation of parallel Hammerstein systems is considered in this chapter, using nonlinear output frequency response functions (NOFRFs). The NOFRFs are a series of one-dimensional frequency functions which are input dependent in general, however, they can be shown to be input independent linear filters in the parallel Hammerstein case. A Gaussian process regression (GPR) framework is proposed for the NOFRF estimation, using concepts adapted from the linear identification literature. When compared to the existing multi-level excitation method, the proposed GPR approach is less sensitive to noisy measurements and requires fewer experimental restrictions.}
+\newpage
+\include{Chapter7_NOFRFs/Chapter_NOFRFs}
+
+\cleardoublepage
+\chapter{Gaussian Process Regression for the Estimation of Generalized Frequency Response Functions}
+\label{chap:8}
+\emph{The generalized frequency response function (GFRF) model is the most direct frequency domain equivalent to the time domain Volterra series, where each GFRF is a multidimensional Fourier transform of the corresponding Volterra kernel. This chapter develops a Gaussian process regression (GPR) method for data-driven identification of GFRF models. Each GFRF is modeled as a real/complex Gaussian process with prior covariance related to the time domain characteristics of its corresponding Volterra kernel, such that the method is a frequency domain equivalent of the Bayesian regularization method considered in Part \ref{part:TD}. Numerical examples highlight the benefit, when only a limited frequency band is of interest, of using the proposed direct approach over indirect estimation from a time domain model.}
+\newpage
+\include{Chapter8_GFRFs/Chapter_GFRFs}
+
+\cleardoublepage
+\chapter{Frequency Domain Response of Nonlinear Systems under Arbitrary Excitation}
+\label{chap:9}
+\emph{The steady-state system response to periodic excitation is well understood for both linear and certain nonlinear model classes. When the excitation is not periodic, the measured response will contain both steady-state and transient contributions. For linear systems, these transient contributions have been thoroughly explored, while no equivalent analysis exists for the nonlinear case. In this chapter, an expression is derived in the frequency domain for the system response of all nonlinear systems with a Volterra series representation. The expression contains both steady-state and transient contributions at each nonlinear order, revealing a highly structured view of nonlinear system response. In the context of identification under arbitrary excitation, the output transients must be properly considered to obtain an accurate model, and the implications of the derived expressions on the methods of Chapters \ref{chap:7} and \ref{chap:8} are discussed.}
+\newpage
+\include{Chapter9_NonlinTransients/Chapter_NonlinTransients}
+
+%--------------------------------------------------------------------------------------------------------------------------------------------------
+\cleardoublepage
+\part{Model Predictive Control}
+\label{part:MPC}
+%--------------------------------------------------------------------------------------------------------------------------------------------------
+
+\cleardoublepage
+\chapter{Computationally Efficient MPC for Arbitrary Order Volterra-Laguerre Models}
+\label{chap:10}
+\emph{Previous research conducted in the area of Volterra series model-based control has been limited to low order models. In this chapter, a state space model structure is developed to represent any arbitrary order Volterra series model expanded using Laguerre basis functions. The model structure is then used to define a model predictive control optimization problem, which is shown to reduce to a computationally efficient root-finding problem under the condition that the move horizon is equal to one. Using these results, a generic Volterra-Laguerre MPC algorithm is defined, with modifications to handle input constraints and offset-free reference tracking. The stability of the proposed control method is also investigated.}
+\newpage
+\include{Chapter10_NMPC/Chapter_NMPC}
+
+\cleardoublepage
+\chapter{Application Examples of Volterra-Laguerre MPC in Water Level Control}
+\label{chap:11}
+\emph{The efficacy of the arbitrary order Volterra-Laguerre MPC proposed in Chapter \ref{chap:10} is assessed here through two application examples. Both examples feature the problem of water level control in connected water tanks, where one is considered in simulation while the other is a practical implementation. For each case, the proposed MPC is tested against control using linearized and simplified model structures to reveal the superiority of the method. The disturbance rejection and reference tracking performance are also investigated with respect to the prediction horizon length.}
+\newpage
+\include{Chapter11_ControlStudy/Chapter_ControlStudy}
+
+%--------------------------------------------------------------------------------------------------------------------------------------------------
+
+\cleardoublepage
+\bookmarksetup{startatroot}% remove TOC from part IV
+%\addtocontents{toc}{\bigskip}% add in a nice space in TOC before next chapters
+\addtocontents{toc}{\vspace{1.25cm}}
+\chapter{Conclusions and Future Work}
+\label{chap:12}
+\emph{The content of this thesis focussed on the development of mathematical techniques which can help enable the widespread use of Volterra series models in data-driven modeling and control. This chapter summarizes the main contributions and results achieved in the thesis, and suggests some promising related research directions which can be pursued in the future.}
+\newpage
+\include{Chapter12_Conclusion/Chapter_Conclusion}
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{part}{Bibliography}
+\bibliographystyle{plain}
+\bibliography{blah}
+
+
+\end{document}

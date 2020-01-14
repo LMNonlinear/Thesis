@@ -13,7 +13,7 @@ In the 1990s, results began to appear in the control theory literature which use
 y = (\mathbf{L}+\mathbf{N}) [u]
 \label{eqn:LinNonlinOperator}
 \end{equation}
-where $\mathbf{L}$ is the linear operator corresponding to first order Volterra kernel $h_1$, and $\mathbf{N}$ is the nonlinear operator built from the higher order kernels, $h_2$, $h_3$, etc. Model-based control typically utilizes an approximate inverse of the plant to decide the control action, and a rearrangement of the operator in (\ref{eqn:LinNonlinOperator}) will produce the inverse expression:
+where $\mathbf{L}$ is the linear operator corresponding to first order Volterra kernel $h_1$, and $\mathbf{N}$ is the nonlinear operator built from constant, $h_0$, and higher order kernels, $h_2$, $h_3$, etc. Model-based control typically utilizes an approximate inverse of the plant to decide the control action, and a rearrangement of the operator in (\ref{eqn:LinNonlinOperator}) will produce the inverse expression:
 \begin{equation}
 (\mathbf{L}+\mathbf{N})^{-1} = (\mathbf{I} + \mathbf{L}^{-1}\mathbf{N})^{-1} \mathbf{L}^{-1}.
 \label{eqn:LinNonlinInverse}
@@ -107,7 +107,7 @@ The model developed here in (\ref{eqn:SS_dynamic_VL}) and (\ref{eqn:SS_output_VL
 
 \section{Model predictive control design}
 
-A model predictive controller will be designed in this section using the proposed state space Volterra-Laguerre model. The prediction horizon, $p$, for the scheme is left arbitrary here, however the move horizon is fixed at $\mu = 1$, i.e. the input is assumed constant within the prediction window during each objective optimization. The move horizon is restricted such that the MPC optimization problem is able to be solved in a computationally efficient manner, as will become clear in the sequel. We consider a typical quadratic objective function, which for $\mu =1$ can be written as,
+A model predictive controller will be designed in this section using the proposed state space Volterra-Laguerre model. The prediction horizon, $p$, for the scheme is left arbitrary here, however the move horizon is fixed at $\mu = 1$, i.e. the input is assumed constant within the prediction window during each objective optimization. This is not without precedent, as similar restrictions were imposed in \cite{Parker1998} and \cite{Antoine2006}. The move horizon is restricted such that the MPC optimization problem is able to be solved in a computationally efficient manner, as will become clear in the sequel. We consider a typical quadratic objective function, which for $\mu =1$ can be written as,
 \begin{align}
 \label{eqn:MPC_ObjFn_Chap10}
 &\min_{u(t)} \Bigg\{ \sum_{j=1}^{p} [y^0(t+j|t) - r(t)]^2  + \Gamma_u \big[ u(t) - u(t-1) \big]^2 \Bigg\} \\
@@ -260,7 +260,7 @@ With a disturbance model in place, the MPC method from Algorithm \ref{alg:BasicV
 
 \section{Notes on stability}
 
-An important issue for any control scheme is whether stability can be guaranteed. Stability in MPC implies that for some desired constant output reference $r$, the input, output and internal states are all bounded, and the states converge to acceptable equilibrium values. Typically, stability is shown only for the case where the reference and desired state equilibriums are all 0, since this control problem can always be obtained through a suitable change of coordinates on the control problem with arbitrary reference \cite{Mayne2000}.  
+An important issue for any control scheme is whether stability can be guaranteed. Stability in MPC implies that for some desired constant output reference $r$, the input, output and internal states are all bounded, and the states converge to acceptable equilibrium values. Typically, stability is shown only for the case where the reference and desired state equilibria are all 0, since this control problem can always be obtained through a suitable change of coordinates on the control problem with arbitrary reference \cite{Mayne2000}.  
 
 In this section, the stability of the control scheme in Algorithm \ref{alg:BasicVL-MPC} will be investigated at several levels of complexity. In the simple case where the system model is linear, a control law can be obtained analytically and used to provide insights about stability, however the analysis becomes more challenging with high order nonlinear models. In all cases, the design parameter $\Gamma_u$ is the key consideration in generating a stable controller.
 

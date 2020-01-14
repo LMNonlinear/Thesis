@@ -143,15 +143,15 @@ Given the model structure in (\ref{eq:NOFRF_Noisy}), a regression model can be f
 \end{equation}
 where
 \begin{align}
-\mathbf{Y}(k) = \begin{bmatrix} Y^{(1)}(k) \\ \vdots \\ Y^{(q)}(k)\end{bmatrix}, \; \; \mathbf{U^*}(k) = \begin{bmatrix} \beta_1 U^*_1(k) & \hdots & \beta_1^M U^*_M(k) \\ \vdots &\ddots & \vdots \\ \beta_q U^*_1(k) & \hdots & \beta_q^M U_M(k) \end{bmatrix}, \; \; \mathbf{G}(k) = \begin{bmatrix} G_1(k) \\ \vdots \\ G_M(k)\end{bmatrix},
+\mathbf{Y}(k) = \begin{bmatrix} Y^{(1)}(k) \\ \vdots \\ Y^{(q)}(k)\end{bmatrix}, \; \; \mathbf{U^*}(k) = \begin{bmatrix} \beta_1 U^*_1(k) & \hdots & \beta_1^M U^*_M(k) \\ \vdots &\ddots & \vdots \\ \beta_q U^*_1(k) & \hdots & \beta_q^M U^*_M(k) \end{bmatrix}, \; \; \mathbf{G}(k) = \begin{bmatrix} G_1(k) \\ \vdots \\ G_M(k)\end{bmatrix},
 \end{align} 
 and $U^*_1,\hdots,U^*_M$ are the nonlinear spectral quantities in (\ref{eq:NOFRF_TransientFree_Chap7}) corresponding to $u^*(t)$. 
 
-Least squares estimates for the NOFRFs can be obtained analytically from (\ref{eq:NOFRF_regressionmodel}) at any given frequency, i.e.
+Least squares estimates for the NOFRFs can be obtained analytically from (\ref{eq:NOFRF_regressionmodel}) at any given frequency. If the error vector $E$ is circular complex distributed, the solution is given as
 \begin{equation}
-\hat{\mathbf{G}}(k) = \bigg( \big[ \mathbf{U^*}(k) \big]^T \big[ \mathbf{U^*}(k) \big] \bigg)^{-1} \big[ \mathbf{U^*}(k) \big]^T \mathbf{Y}(k) \; \; \; \forall k \in \mathcal{K}
+\hat{\mathbf{G}}(k) = \bigg( \big[ \mathbf{U^*}(k) \big]^H \big[ \mathbf{U^*}(k) \big] \bigg)^{-1} \big[ \mathbf{U^*}(k) \big]^H \mathbf{Y}(k) \; \; \; \forall k \in \mathcal{K}
 \end{equation}
-where $\mathcal{K}$ is the set of excited frequency bins in the input, $U^*_1(k)$.
+where $\mathcal{K}$ is the set of excited frequency bins in the input, $U^*_1(k)$. For any other distribution of $E$, (\ref{eq:NOFRF_regressionmodel}) must be separated into its real and imaginary parts, with each part solved separately in the traditional least squares sense (see \cite{Lang2005}).  
 
 This multi-level excitation method for NOFRF estimation has several disadvantages:
 \begin{itemize}
@@ -411,7 +411,7 @@ Four 1000-run Monte Carlo studies are performed on the traditional and regulariz
 
 Note that for studies 1, 2 and 3, the traditional multi-level excitation method uses its minimum requirement of $M$ differently scaled inputs, and hence $M$ experiments. In contrast, the regularized method is disadvantaged in these studies by using only one input and experiment, such that data collection is faster by a factor of $M$. Furthermore, the estimation is performed on a dataset which is smaller by a factor of $M$ for the GPR method. The final study (4) compares the two methods for an equal amount of measurement data, using the results in Section \ref{sec:NOFRF_MultipleRealizations} for the regularized method. For a fair comparison of the two methods, all studies use measurement data taken from the steady-state portion of the experiment, i.e. there are no transient components in the output response. 
 
-To visualize performance in each Monte Carlo study, Figures \ref{fig:NOFRFs_2ndOrder_SNR100}, \ref{fig:NOFRFs_2ndOrder_SNR10}, \ref{fig:NOFRFs_3rdOrder_SNR100} and \ref{fig:NOFRFs_3rdOrder_SNR100_10times} plot the true NOFRF magnitudes as well as the central 95\% intervals (shaded) from each estimation method. For studies 1, 2 and 3, the regularized method produces tighter intervals which are more centered around the true NOFRF, despite having a shorter experiment time and using significantly less data in the estimation. The contrast in performance is even clearer in the results for study 4, where the regularized method is allowed to use an equal amount of measurement data. All of the Monte Carlo results show a clear accuracy benefit for the proposed method when output measurement noise is present in the system, which can be attributed to the ability of GPR methods to significantly reduce estimation variance at the price of a small bias \citep{Pillonetto2014}. The bias here is small but evident, particularly at the resonance peaks of each NOFRF.
+To visualize performance in each Monte Carlo study, Figures \ref{fig:NOFRFs_2ndOrder_SNR100}, \ref{fig:NOFRFs_2ndOrder_SNR10}, \ref{fig:NOFRFs_3rdOrder_SNR100} and \ref{fig:NOFRFs_3rdOrder_SNR100_10times} plot the true NOFRF magnitudes as well as the central 95\% intervals (shaded) from each estimation method. For studies 1, 2 and 3, the regularized method produces tighter intervals which are more centered around the true NOFRF, despite having a shorter experiment time and using significantly less data in the estimation. The contrast in performance is even clearer in the results for study 4, where the regularized method is allowed to use an equal amount of measurement data. All of the Monte Carlo results show a clear accuracy benefit for the proposed method when output measurement noise is present in the system, which can be attributed to the ability of GPR methods to significantly reduce estimation covariance at the price of a small bias \citep{Pillonetto2014}. The bias here is small but evident, particularly at the resonance peaks of each NOFRF.
 
 \begin{figure}[!hp]
 \centering

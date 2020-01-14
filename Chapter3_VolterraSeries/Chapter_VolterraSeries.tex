@@ -1,17 +1,17 @@
 \section{Introduction}
 
-For linear time-invariant systems, the nonparametric impulse response model gives a complete and intuitive description of the system space. As a consequence, its truncated FIR form is the model structure of choice in many modern regularized estimation procedures, which were discussed in Chapter \ref{chap:2}. When broadening our scope to \emph{nonlinear} time-invariant systems, an analogous nonparametric representation is known as the Volterra series \cite{Schetzen1980}. 
+For linear time-invariant systems, the nonparametric impulse response model gives a complete and intuitive description of the system space. As a consequence, its truncated FIR form is the model structure of choice in many modern regularized estimation procedures, which were discussed in Chapter \ref{chap:2}. When broadening our scope to \emph{nonlinear} time-invariant systems, an analogous nonparametric representation is known as the Volterra series \cite{Schetzen1980}, named for mathematician Vito Volterra and his pioneering work on analytic functionals \cite{Volterra1930}. 
 
 In much the same way that linear functions are just one term in the Taylor series description of nonlinear static functions, the linear impulse response becomes one term in a series of multi-dimensional impulse responses, which together form the Volterra series description of nonlinear dynamical systems. Each successive term in the series contains one additional dimension in its impulse response, and represents a single `nonlinear order' of the system. For example, the next term after the linear impulse is a 2-dimensional impulse response which describes all 2\textsuperscript{nd} order (quadratic) nonlinear behaviour in the system. In theory, the Volterra series has both infinite terms and infinite memory lengths within each term. The series is typically defined in the time domain, since this is the domain of an impulse response, however there are also equivalent frequency domain representations \cite{Schetzen1980}, \cite{Lang2005}, \cite{Lang2007} which can be obtained using appropriate Fourier transformations. Furthermore, all representations of the Volterra series can be described using continuous- or discrete-time models.
 
 In practice, for data-driven modeling and control, the Volterra series must be truncated such that there is a finite maximum nonlinear order, and each impulse response term has finite memory length. It has been shown in \cite{Boyd1985} that a truncated, finite memory Volterra series model can approximate any fading memory nonlinear system arbitrarily well. The fading memory condition is somewhat similar to a stability condition in linear systems, requiring that the current system output not be influenced by input signals applied in the remote past. This will also exclude nonlinear system classes which exhibit, for example, hysteresis or non-unique steady-states. The fading memory condition still leaves an incredibly broad set of systems which can be universally approximated, along with many systems which can be approximated locally within a small region of some stable equilibrium point.
 
-The extreme versatility of Volterra series models in representing nonlinear systems will motivate the use of such models in this thesis. In particular, the identification of nonlinear systems can be performed with very little prior knowledge, requiring user selections only for the maximum nonlinear order and memory lengths. Due to the multidimensional nature of the series, however, the model requires large numbers of parameters to be estimated, and this number grows rapidly with memory length and series order. From an identification perspective, large numbers of parameters means high variance and MSE in the resulting estimates, particularly when the input/output data length is low or measurement noise is significant. There are also implications on the computational and memory requirements when considering a large parameter space. Such complications have historically restricted the use of classical estimators on Volterra series, and only in the most recent decades have new techniques emerged which enable more widespread use of the series in data-driven modeling. Some of these techniques will be discussed in Sections \ref{sec:VolterraID_History} and \ref{sec:RegVolterraTD}. 
+The extreme versatility of Volterra series models in representing nonlinear systems will motivate the use of such models in this thesis. In particular, the identification of nonlinear systems can be performed with very little prior knowledge, requiring user selections only for the maximum nonlinear order and memory lengths. Due to the multidimensional nature of the series, however, the model requires large numbers of parameters to be estimated, and this number grows rapidly with memory length and series order. From an identification perspective, large numbers of parameters means high covariance and MSE in the resulting estimates, particularly when the input/output data length is low or measurement noise is significant. There are also implications on the computational and memory requirements when considering a large parameter space. Such complications have historically restricted the use of classical estimators on Volterra series, and only in the most recent decades have new techniques emerged which enable more widespread use of the series in data-driven modeling. Some of these techniques will be discussed in Sections \ref{sec:VolterraID_History} and \ref{sec:RegVolterraTD}. 
 
 \section{Discrete-time representations}
 \label{sec:DTrepresentations_Volterra}
 
-While the continuous-time Volterra series is a useful concept in systems theory, the nature of sampled data and nonparametric estimation dictates that we use discrete-time models for estimation and control. Thus, we will restrict our focus in this thesis to the discrete-time definitions of Volterra series and its related expansions. Essentially, the only difference between these definitions and their continuous-time equivalents found in e.g. \cite{Schetzen1980} is the use of summations in place of continuous integrals. Naturally, the series terms also change from being continuously defined, to being defined only at integer values of their input arguments. The time and frequency domain representations are defined below.
+While the continuous-time Volterra series is a useful concept in systems theory, the nature of sampled data and nonparametric estimation dictates that we use discrete-time models for estimation and control. In the case where the system is excited by a piecewise constant input over the sampling periods, an explicit relationship between the discrete- and continuous-time models can be established \cite{Middleton1990}. Thus, we will restrict our focus in this thesis to the discrete-time definitions of Volterra series and its related expansions. Essentially, the only difference between these definitions and their continuous-time equivalents found in e.g. \cite{Schetzen1980} is the use of summations in place of continuous integrals. Naturally, the series terms also change from being continuously defined, to being defined only at integer values of their input arguments. The time and frequency domain representations are defined below.
 
 \subsection{Time domain representation}
 
@@ -35,7 +35,7 @@ A visual depiction of the time domain series is provided in Figure \ref{fig:Volt
 
 \subsection{Frequency domain representations}
 
-The Volterra series can also be expressed in the frequency domain, with a number of competing representations available in the literature \cite{Cheng2017}. In their discrete-time form, all of these representations require an assumption that the system is in steady state. The assumption implies that an $N$-periodic input signal has been applied for a sufficiently long time so that the output is also $N$-periodic and free of transients. Then, for some $N$-sample measurement window, we can express the system input and output spectra, $U(k)$ and $Y^0(k)$ for $k=0,1,\hdots,N-1$, as the Discrete Fourier Transform (DFT) of their corresponding $N$-sample time domain signals $u(t)$ and $y^0(t)$. The relationship between these two steady state spectra will constitute the frequency domain model.
+The Volterra series can also be expressed in the frequency domain, with a number of competing representations available in the literature \cite{Cheng2017}. In their discrete-time form, all of these representations require an assumption that the system is in steady state. The assumption implies that an $N$-periodic (i.e. periodic with period $N$) input signal has been applied for a sufficiently long time so that the output is also $N$-periodic and free of transients. Then, for some $N$-sample measurement window, we can express the system input and output spectra, $U(k)$ and $Y^0(k)$ for $k=0,1,\hdots,N-1$, as the Discrete Fourier Transform (DFT) of their corresponding $N$-sample time domain signals $u(t)$ and $y^0(t)$. The relationship between these two steady state spectra will constitute the frequency domain model.
 
 While each frequency domain structure has its own unique benefits, the most natural extension from the time domain series is a Generalized Frequency Response Function (GFRF) model. First derived in \cite{George1959}, the GFRF model is obtained via multidimensional Fourier transforms on each time domain series term. In discrete-time, the mathematical description is given by,
 \begin{equation}
@@ -56,8 +56,8 @@ Frequency domain models are often used for abstract analysis and understanding o
 
 Mathematically, the NOFRF model expresses the output spectra as,
 \begin{align}
-Y_0(k) &= H_0(k) + \sum_{m=1}^{M} Y_m(k) \\
-Y_m(k) &= G_m(k) U_m(k)  \label{eq:NOFRF_TransientFree}
+Y_0(k) &= H_0(k) + \sum_{m=1}^{M} Y_m(k), \\
+Y_m(k) &= G_m(k) U_m(k),  \label{eq:NOFRF_TransientFree}
 \end{align}
 where $G_m(k)$ is the $m$\textsuperscript{th} order NOFRF at frequency bin $k$, and $U_m(k)$ is defined as the DFT of the $N$-sample input raised to the $m$\textsuperscript{th} power, i.e. $u^m(t)$. An equivalent block structure for the model is shown in Figure \ref{fig:NOFRF_ModelStructure}. For a given input sequence, there is a mathematical relationship between the GFRF and NOFRF at each nonlinear order \cite{Cheng2017}, which can be given as
 \begin{equation}
@@ -72,7 +72,7 @@ G_m(k) = \frac{\sum\limits_{k_1+\hdots+k_m = k} H_m(k_1, \hdots, k_m) \prod\limi
 \label{fig:NOFRF_ModelStructure}
 \end{figure}
 
-As can be seen in (\ref{eq:GFRF2NOFRF}), the NOFRF series is an input dependent model unlike its GFRF counterpart. The dependence arises because the NOFRFs act on exponents of the input rather than the input directly, and this property limits their utility in system analysis. Nevertheless, in Chapter \ref{chap:7} we will examine a special case where the NOFRFs are input independent and pseudo-linear.
+As can be seen in (\ref{eq:GFRF2NOFRF}), the NOFRF series is an input dependent model unlike its GFRF counterpart. The dependence arises because the NOFRFs act on powers of the input rather than the input directly, and this property limits their utility in system analysis. Nevertheless, in Chapter \ref{chap:7} we will examine a special case where the NOFRFs are input independent and pseudo-linear.
 
 \section{Properties and assumptions}
 \label{sec:VolterraProperties}
@@ -115,20 +115,20 @@ While symmetry does provide a reduction in the number of estimated parameters, t
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.6\textwidth]{Chapter3_VolterraSeries/ParameterGrowth.pdf}
+\includegraphics[width=0.65\textwidth]{Chapter3_VolterraSeries/ParameterGrowthB.pdf}
 \caption{Number of unique kernel parameters for varying dimension and memory length}
 \label{fig:ParameterGrowthCurse}
 \end{figure}
 
 The final consideration which must be made is stability. In the case of linear systems, bounded-input bounded-output (BIBO) stability can be defined easily using the impulse response representation. In particular for discrete-time models, a necessary and sufficient condition is that the impulse response be absolutely summable:
 \begin{equation}
-\sum_{\tau=-\infty}^{\infty} |h(\tau)| < \infty.
+\sum_{\tau=0}^{\infty} |h(\tau)| < \infty.
 \end{equation}
 For Volterra series models, the situation is similar but not quite as straightforward. 
 \begin{property}
-For a Volterra kernel $h_m(\tau_1, \hdots, \tau_m)$, the kernel is BIBO stable if
+For a causal Volterra kernel $h_m(\tau_1, \hdots, \tau_m)$, the kernel is BIBO stable if
 \begin{equation}
-\sum_{\tau_1=-\infty}^{\infty} \hdots \sum_{\tau_m=-\infty}^{\infty}|h_m(\tau_1, \hdots, \tau_m)| < \infty.
+\sum_{\tau_1=0}^{\infty} \hdots \sum_{\tau_m=0}^{\infty}|h_m(\tau_1, \hdots, \tau_m)| < \infty.
 \end{equation}
 \end{property}
 The condition that the kernel be absolutely summable is sufficient to give BIBO stability, however it is no longer a necessary condition for $m>1$. Furthermore, a method for constructing stable kernels which violate this condition can be found in \cite{Schetzen1980}. While such special cases exist, in practice one would expect the kernels to decay to zero in all directions of increasing lag, implying that we have absolute summability.
@@ -145,7 +145,7 @@ While block-oriented models are not the focus of this thesis, some of the more c
 
 \begin{assum}
 \label{assum:polynomialnonlin_Chap3}
-In all block structures, the static nonlinear block can be represented by a polynomial nonlinearity\footnote{The polynomial assumption on $F(x(t))$ is not particularly restrictive, since a Taylor series expansion can easily be generated for non-polynomial nonlinearities.},
+In all block structures, the static nonlinear block can be represented by a polynomial nonlinearity\footnote{The polynomial assumption on $F(x(t))$ is not particularly restrictive, since any continuous function can be approximated arbitrarily well (in a least squares sense) over a finite interval by a polynomial of sufficiently high degree \cite{Timan1963}. For discontinuous functions, a similar pointwise convergence can be established as polynomial degree approaches infinity.},
 $$F(x(t)) = \beta_0 + \beta_1 [x(t)] + \hdots + \beta_M [x(t)]^M.$$
 \end{assum}
 
@@ -217,11 +217,11 @@ Of course, the assumption of a Gaussian white noise input is too strict to be us
 
 Apart from using inputs with a known distribution, researchers specifically designed the identification input to maximize the accuracy of their chosen estimator. Some examples of these inputs include pseudorandom binary sequences (PRBS) in \cite{Sutter1987} and \cite{Reed1996}, and pseudorandom multilevel sequences (PRMLS) in \cite{Nowak1994}. These techniques are only applicable if the input used for identification can be precisely controlled, which is not always a realistic assumption.
 
-More recently, the strategy of expanding Volterra series models in terms of a finite set of basis functions has come to the forefront. Such methods can provide a dramatic reduction in the number of parameters requiring estimation, providing the basis functions are chosen appropriately. An early example can be found in \cite{Marmarelis1993}, where Laguerre basis function expansions are employed for nonlinear biological systems. The popularity of the approach gained momentum following papers on the optimal Laguerre \cite{Campello2004} and Kautz \cite{Rosa2007} basis function expansions for Volterra models. As well as the classical sets of orthonormal functions, wavelets have also been explored as a basis due to their desirable properties of orthogonality and compact support \cite{Cheng2017}. Some notable examples can be found in \cite{Nikolaou2000}, \cite{Prazenica2004} and \cite{Prazenica2006}, however these methods are limited to kernels of order three and lower. 
+More recently, the strategy of expanding Volterra series models in terms of a finite set of basis functions has come to the forefront. Such methods can provide a dramatic reduction in the number of parameters requiring estimation, providing the basis functions are chosen appropriately. The earliest examples of this approach appeared in \cite{Amorocho1971} for a hydrologic system, and \cite{Watanabe1975} for a physiological system, which then inspired further results in \cite{Ogura1985} and \cite{Marmarelis1993}. The popularity of the approach gained momentum following papers on the optimal Laguerre \cite{Campello2004} and Kautz \cite{Rosa2007} basis function expansions for Volterra models. As well as the classical sets of orthonormal functions, wavelets have also been explored as a basis due to their desirable properties of orthogonality and compact support \cite{Cheng2017}. Some notable examples can be found in \cite{Nikolaou2000}, \cite{Prazenica2004} and \cite{Prazenica2006}, however these methods are limited to kernels of order three and lower. 
 
 The rapid increase of available computing power in recent decades has allowed more computationally intensive methods to enter the field of Volterra series estimation. A method based on particle swarm optimization was proposed in \cite{Chang2012}, while a relationship between the series and neural networks was discussed in \cite{Wray1994} and used to propose an identification scheme. Regularized linear regression was explored in \cite{Franz2006} using ridge regression. Finally, the Bayesian regularization approach \cite{Birpoutsoukis2017} of interest in this thesis is made possible via intensive global optimization techniques.
 
-The discussion so far has only focussed on time domain estimation, since frequency domain kernels can be obtained indirectly from transformation of the time domain terms. Direct frequency domain estimation has its own history, however, which runs in parallel and follows the same trends as the time domain. Estimation of a system's GFRFs was originally considered for specific and strict experimental conditions. Methods in \cite{Bedrosian1971} required harmonic or Gaussian noise inputs, while \cite{Jones1989} required special harmonic inputs as well as readily available difference equations for the system. Many results employed specially designed periodic multisine inputs, such as \cite{Boyd1983}, \cite{Chua1989} and \cite{Evans1996}. More recently, an interpolation method was provided in \cite{Nemeth2002} which exploits the (assumed) local smoothness of GFRFs, and another method has been proposed in \cite{Li2011} which directly uses harmonic time domain data for estimation.       
+The discussion so far has only focussed on time domain estimation, since frequency domain kernels can be obtained indirectly from transformation of the time domain terms. Direct frequency domain estimation has its own history, however, which runs in parallel and follows the same trends as the time domain. Estimation of a system's GFRFs was originally considered for specific and strict experimental conditions. Methods in \cite{Bedrosian1971} required harmonic or Gaussian noise inputs, while \cite{Jones1989} required special harmonic inputs as well as readily available difference equations for the system. Many results employed specially designed periodic multisine inputs, such as \cite{Victor1980}, \cite{Boyd1983}, \cite{Chua1989} and \cite{Evans1996}. More recently, an interpolation method was provided in \cite{Nemeth2002} which exploits the (assumed) local smoothness of GFRFs, and another method has been proposed in \cite{Li2011} which directly uses harmonic time domain data for estimation.       
 
 \section{Regularized Volterra series estimation}
 \label{sec:RegVolterraTD}
@@ -343,14 +343,16 @@ As an illustration of the profound benefit of Bayesian regularization in Volterr
 
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.95\textwidth]{Chapter3_VolterraSeries/LSvsReLS_truekernels.pdf}
+\includegraphics[width = 1\textwidth]{Chapter3_VolterraSeries/LSvsReLS_truekernels.pdf}
 \caption{True Volterra kernels for the comparative simulation example}
 \label{fig:ExampleLSvsReLS_TrueKernels}
 \end{figure}
 
-The first set of estimates, shown in Figure \ref{fig:ExampleLSvsReLS_VolterraSeries2_whitenoise}, were obtained from a simulation of the system in Figure \ref{fig:ExampleLSvsReLS_TrueKernels} for a dataset with length $N=1000$, noise variance $\sigma^2 = 1$, and a white Gaussian noise input. In this case, the input signal is sufficiently exciting, however the least squares estimate still suffers from high variance due to the large number of parameters being estimated. The regularized estimator, however, produces smooth, accurate estimates of the Volterra kernels due to the construction of prior covariances which impose the desired behaviour. 
+The first set of estimates, shown in Figure \ref{fig:ExampleLSvsReLS_VolterraSeries2_whitenoise}, were obtained from a simulation of the system in Figure \ref{fig:ExampleLSvsReLS_TrueKernels} for a dataset with length $N=1000$, noise variance $\sigma^2 = 1$, and a white Gaussian noise input. In this case, the input signal is sufficiently exciting, however the least squares estimate still suffers from high covariance due to the large number of parameters being estimated. The regularized estimator, however, produces smooth, accurate estimates of the Volterra kernels due to the construction of prior covariances which impose the desired behaviour. 
 
 The second set of estimates, shown in Figure \ref{fig:ExampleLSvsReLS_VolterraSeries2_filterednoise}, were obtained using the same specifications, except that the input is now \emph{filtered} Gaussian noise. In this case the input does not have energy in the full frequency band (i.e. it is not sufficiently exciting), hence the least squares estimator is ill-conditioned and the resulting estimate is unusable. The regularized estimate, on the other hand, is relatively unaffected by the change. 
+
+\vspace{10mm}
 
 \begin{figure}[!hp]
 \centering
